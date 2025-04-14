@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ...existing code... */
+    
+    /* Updated font variables */
+    --font-sans: 'Space Mono', monospace;
+    --font-display: 'Playfair Display', serif;
+    
+    /* ...existing code... */
+  }
+
+  body {
+    font-family: var(--font-sans);
+    /* ...existing code... */
+  }
+  
+  .font-display {
+    font-family: var(--font-display);
+  }
+  
+  /* ...existing code... */
+}
