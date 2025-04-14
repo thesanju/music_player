@@ -1,3 +1,6 @@
+/* Import our fonts - must be at the top */
+@import "@fontsource/dm-serif-display";
+@import "@fontsource/work-sans";
 
 @tailwind base;
 @tailwind components;
@@ -5,44 +8,39 @@
 
 @layer base {
   :root {
-    --background: 30 20% 97%;
-    --foreground: 220 20% 12%;
-
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 12%;
-
+    --card-foreground: 240 10% 3.9%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 12%;
-
-    --primary: 328 73% 41%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 60 10% 96%;
-    --secondary-foreground: 24 6% 30%;
-
-    --muted: 30 10% 94%;
-    --muted-foreground: 220 10% 40%;
-
-    --accent: 25 70% 78%;
-    --accent-foreground: 220 20% 12%;
-
+    --popover-foreground: 240 10% 3.9%;
+    
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 90%;
-    --input: 220 13% 90%;
-    --ring: 328 73% 41%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 77.2% 49.8%;
+    
+    --radius: 0.5rem;
 
-    --radius: 0.25rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 328 73% 41%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Font variables */
+    --font-sans: 'Space Mono', monospace;
+    --font-display: 'Playfair Display', serif;
   }
 
   .dark {
@@ -81,6 +79,29 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    @apply bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .recipe-container {
+    @apply container mx-auto px-4 md:px-6;
+  }
+  
+  .pill-badge {
+    @apply inline-flex items-center rounded-full px-2 py-1 text-xs font-medium;
   }
 }
 
@@ -166,8 +187,56 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+
+  /* Ensure images are always visible */
+  img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Fix for recipe card images */
+  .recipe-card img,
+  [class*="recipe"] img,
+  [class*="card"] img {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure images are always visible - with higher specificity */
+  img, img[src], .recipe-card img, [class*="recipe"] img, [class*="card"] img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
+  
+  /* Force hardware acceleration on elements containing images */
+  .recipe-card, 
+  [class*="card"],
+  [class*="recipe"],
+  div:has(> img) {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+  
+  /* Add a specific rule for image containers */
+  .h-full.w-full.rounded-xl.overflow-hidden {
+    position: relative;
+    z-index: 1;
+  }
 }
 
-/* Import our fonts */
-@import "@fontsource/dm-serif-display";
-@import "@fontsource/work-sans";
+/* Add important rules outside of Tailwind layers for maximum specificity */
+img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Disable any hover effects that might be affecting image visibility */
+*:hover img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
